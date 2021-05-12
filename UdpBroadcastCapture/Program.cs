@@ -16,10 +16,16 @@ namespace UdpBroadcastCapture
         //private static readonly IPAddress IpAddress = IPAddress.Parse("192.168.5.137"); 
         // Listen for activity on all network interfaces
         // https://msdn.microsoft.com/en-us/library/system.net.ipaddress.ipv6any.aspx
-        private const string BaseUri = "https://sl-restprovider.azurewebsites.net/api/Temperaturs";
+        private const string BaseUri = "https://simonappservice.azurewebsites.net/api/Temp";
         static void Main()
         {
-            IPEndPoint ipEndPoint = new IPEndPoint(IPAddress.Any, Port);
+            //vi laver Temp objekt 
+            Console.WriteLine("giv en temperatur");
+            string inputtemp = Console.ReadLine();
+            Temp temp = new Temp(inputtemp, 3);
+            Temp temp1 = Post <Temp, Temp>(BaseUri, temp).Result;
+            Console.WriteLine(temp1);
+            /*IPEndPoint ipEndPoint = new IPEndPoint(IPAddress.Any, Port);
             using (UdpClient socket = new UdpClient(ipEndPoint))
             {
                 IPEndPoint remoteEndPoint = new IPEndPoint(0, 0);
@@ -32,10 +38,13 @@ namespace UdpBroadcastCapture
                     Console.WriteLine("Receives {0} bytes from {1} port {2} message {3}", datagramReceived.Length,
                         remoteEndPoint.Address, remoteEndPoint.Port, message);
                     
-                    string newmessage = {Temperaturs.Temp = message};
+                    
+                    
+
+                    //string newmessage = {Temperaturs.Temp = message};
                     //Parse(message);
                 }
-            }
+            }*/
         }
 
         // To parse data from the IoT devices (depends on the protocol)
