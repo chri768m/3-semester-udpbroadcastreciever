@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,7 +17,7 @@ namespace UdpBroadcastCapture
 {
     class RESTClient
     {
-        public static async Task<List<T>> GetList<T>(string uri)
+        /*public static async Task<List<T>> GetList<T>(string uri)
         // https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/generics/generic-methods
         {
             using HttpClient client = new HttpClient();
@@ -23,9 +25,9 @@ namespace UdpBroadcastCapture
             // Console.WriteLine(content);
             List<T> data = JsonConvert.DeserializeObject<List<T>>(content);
             return data;
-        }
+        }*/
 
-        public static async Task<T> GetSingle<T>(string uri)
+       /* public static async Task<T> GetSingle<T>(string uri)
         {
             using HttpClient client = new HttpClient();
             HttpResponseMessage response = await client.GetAsync(uri);
@@ -36,27 +38,27 @@ namespace UdpBroadcastCapture
                 return data;
             }
             throw new KeyNotFoundException($"Status code={response.StatusCode} Message={content}");
-        }
+        }*/
 
-        public static async Task<TOut> Post<TIn, TOut>(string uri, TIn item)
+        public static async Task<Temp>  Post(string uri, Temp item)
         {
             using HttpClient client = new HttpClient();
             string jsonStr = JsonConvert.SerializeObject(item);
             Console.WriteLine(jsonStr);
             StringContent requestContent = new StringContent(jsonStr, Encoding.UTF8, "application/json");
-
+            
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
             HttpResponseMessage response = await client.PostAsync(uri, requestContent);
             string responseContent = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode) // all 2xx status codes
             {
                 //Console.WriteLine(jsonString);
-                TOut data = JsonConvert.DeserializeObject<TOut>(responseContent);
-                return data;
+                Temp data = JsonConvert.DeserializeObject<Temp>(responseContent);
             }
             throw new KeyNotFoundException($"Status code={response.StatusCode} Message={responseContent}");
         }
 
-        public static async Task<T> Delete<T>(string uri)
+       /* public static async Task<T> Delete<T>(string uri)
         {
             using HttpClient client = new HttpClient();
             HttpResponseMessage response = await client.DeleteAsync(uri);
@@ -69,9 +71,9 @@ namespace UdpBroadcastCapture
                 return data;
             }
             throw new KeyNotFoundException($"Status code={response.StatusCode} Message={responseContent}");
-        }
+        }*/
 
-        public static async Task<TOut> Put<TIn, TOut>(string uri, TIn newValues)
+       /* public static async Task<TOut> Put<TIn, TOut>(string uri, TIn newValues)
         {
             string jsonStr = JsonConvert.SerializeObject(newValues);
             StringContent requestContent = new StringContent(jsonStr, Encoding.UTF8, "application/json");
@@ -84,6 +86,6 @@ namespace UdpBroadcastCapture
                 return data;
             }
             throw new KeyNotFoundException($"Status code={response.StatusCode} Message={responseContent}");
-        }
+        }*/
     }
 }

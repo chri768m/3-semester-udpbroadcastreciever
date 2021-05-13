@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using static UdpBroadcastCapture.RESTClient;
 
 namespace UdpBroadcastCapture
@@ -16,16 +17,17 @@ namespace UdpBroadcastCapture
         //private static readonly IPAddress IpAddress = IPAddress.Parse("192.168.5.137"); 
         // Listen for activity on all network interfaces
         // https://msdn.microsoft.com/en-us/library/system.net.ipaddress.ipv6any.aspx
-        private const string BaseUri = "https://simonappservice.azurewebsites.net/api/Temp";
+        private const string BaseUri ="https://simonappservice.azurewebsites.net/api/Temp";
         static void Main()
         {
             //vi laver Temp objekt 
-            Console.WriteLine("giv en temperatur");
+            /*Console.WriteLine("giv en temperatur");
             string inputtemp = Console.ReadLine();
             Temp temp = new Temp(inputtemp, 3);
             Temp temp1 = Post <Temp, Temp>(BaseUri, temp).Result;
-            Console.WriteLine(temp1);
-            /*IPEndPoint ipEndPoint = new IPEndPoint(IPAddress.Any, Port);
+            Console.WriteLine(temp1);*/
+            int _nextID = 1;
+            IPEndPoint ipEndPoint = new IPEndPoint(IPAddress.Any, Port);
             using (UdpClient socket = new UdpClient(ipEndPoint))
             {
                 IPEndPoint remoteEndPoint = new IPEndPoint(0, 0);
@@ -37,14 +39,13 @@ namespace UdpBroadcastCapture
                     string message = Encoding.ASCII.GetString(datagramReceived, 0, datagramReceived.Length);
                     Console.WriteLine("Receives {0} bytes from {1} port {2} message {3}", datagramReceived.Length,
                         remoteEndPoint.Address, remoteEndPoint.Port, message);
-                    
-                    
-                    
 
-                    //string newmessage = {Temperaturs.Temp = message};
-                    //Parse(message);
+                    Temp _temp = new Temp { temperatur = message, id = _nextID++ };
+                    Post(BaseUri,_temp);
+                    Thread.Sleep(5000);
+            
                 }
-            }*/
+            }
         }
 
         // To parse data from the IoT devices (depends on the protocol)
