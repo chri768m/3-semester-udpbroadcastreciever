@@ -47,7 +47,7 @@ namespace UdpBroadcastCapture
                     int[] intSplit = Array.ConvertAll(txtSplit, s => int.Parse(s));
 
                     //int IntMessage = Int32.Parse(message);
-                    Measurement Meas = new Measurement { Temp = intSplit[0], Humi = intSplit[1], Id = _nextID };
+                    Measurement Meas = new Measurement { Temp = intSplit[0], Humi = intSplit[1], Stoej = intSplit[2], Id = _nextID };
                     //Temp _temp = new Temp {temperatur = intSplit[0], id = _nextID};
                     //Post<Temp, Temp>(BaseUri, _temp);
                     Put<Measurement, Measurement>(BaseUri + "Measurement/1", Meas);

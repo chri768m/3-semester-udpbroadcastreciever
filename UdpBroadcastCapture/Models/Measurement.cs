@@ -11,11 +11,13 @@ namespace UdpBroadcastCapture.Models
         public int Temp { get; set; }
         public int Humi { get; set; }
         public int Id { get; set; }
+        public int Stoej { get; set; }
 
-        public Measurement(int temp, int humi, int id)
+        public Measurement(int temp, int humi,int stoej, int id)
         {
             Temp = temp;
             Humi = humi;
+            Stoej = stoej;
             Id = id;
         }
         public Measurement()
@@ -25,7 +27,7 @@ namespace UdpBroadcastCapture.Models
 
         public override string ToString()
         {
-            return Temp + " " + Humi;
+            return Temp + " " + Humi + " " + Stoej;
         }
     }
 }
